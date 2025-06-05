@@ -1,0 +1,800 @@
+/* General Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Typography */
+h2 {
+    color: #00b4d8; /* Skyblue */
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    color: #00b4d8; /* Skyblue */
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+}
+
+ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* Image Container */
+.image-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+    border: 1px solid #333;
+}
+
+.caption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Special Elements */
+br {
+    display: block;
+    content: "";
+    margin: 0.5rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.7rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Animation for headings */
+h2, h3 {
+    position: relative;
+}
+
+h2::after, h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #00b4d8, transparent);
+    border-radius: 3px;
+}
+
+/* Code-like elements */
+p br + br {
+    display: none;
+}
+
+/* Enhance readability */
+p {
+    text-align: justify;
+    hyphens: auto;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Formula styling */
+.formula {
+    font-family: 'Courier New', Courier, monospace;
+    background: rgba(58, 190, 255, 0.1);
+    color: #3ABEFF;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    display: inline-block;
+    margin: 0 0.2rem;
+}
+
+/* ──────────────────────────────────────────────── */
+/* Cyberpunk EAS Algorithm Styling */
+/* ──────────────────────────────────────────────── */
+
+#eas-algorithm {
+    background-color: #121212;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+    max-width: 900px; /* Match the container width of Section 1 */
+    margin: 0 auto; /* Center align the section */
+    border: none !important; /* Forcefully remove any border */
+}
+
+#eas-algorithm::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        #00b4d8 20%, 
+        #00f2ff 50%, 
+        #00b4d8 80%, 
+        transparent 100%);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+}
+
+#eas-algorithm h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#eas-algorithm h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#eas-algorithm p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#eas-algorithm ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#eas-algorithm li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#eas-algorithm li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#eas-algorithm figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#eas-algorithm figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+    border: 1px solid #333;
+}
+
+#eas-algorithm figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#eas-algorithm pre {
+    background: #0d1117;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#eas-algorithm code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3ABEFF;
+    font-size: 1rem;
+    display: block;
+}
+
+/* ─── Figures ──────────────────────────────────── */
+#eas-algorithm figure {
+    margin: 2.5rem 0;
+    text-align: center;
+    position: relative;
+}
+
+#eas-algorithm figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+#eas-algorithm figure:hover img {
+    transform: scale(1.02);
+}
+
+#eas-algorithm figcaption {
+    color: #8b949e;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+#eas-algorithm figcaption strong {
+    color: #7ad0ff;
+    font-style: normal;
+}
+
+/* ─── Lists ───────────────────────────────────── */
+#eas-algorithm ul {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+    list-style-type: none;
+}
+
+#eas-algorithm li {
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 1.8rem;
+}
+
+#eas-algorithm li::before {
+    content: "⎋";
+    position: absolute;
+    left: 0;
+    color: #00f2ff;
+    font-weight: bold;
+}
+
+/* ─── Responsive Design ───────────────────────── */
+@media (max-width: 768px) {
+    #eas-algorithm {
+        padding: 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    #eas-algorithm h2 {
+        font-size: 1.8rem;
+    }
+    
+    #eas-algorithm h3 {
+        font-size: 1.4rem;
+    }
+}
+
+/* ─── Animation Effects ──────────────────────── */
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+#eas-algorithm h3::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 1.2rem;
+    width: 50px;
+    height: 2px;
+    background: #00f2ff;
+    animation: pulse 2s infinite;
+}
+
+/* Section 3: Start-End Algorithm Styling */
+
+#start-end-algorithm {
+    background-color: #121212;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#start-end-algorithm h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#start-end-algorithm h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#start-end-algorithm p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#start-end-algorithm ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#start-end-algorithm li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#start-end-algorithm li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#start-end-algorithm figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#start-end-algorithm figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#start-end-algorithm figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#start-end-algorithm pre {
+    background: #0d1117;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#start-end-algorithm code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3ABEFF;
+    font-size: 1rem;
+    display: block;
+}
+
+#start-end-algorithm .note {
+    background: rgba(58, 190, 255, 0.1);
+    color: #3ABEFF;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    text-align: justify;
+}
+
+/* Section 4: Unbiased Random Walk (URW) Styling */
+
+#urw-algorithm {
+    background-color: #121212;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#urw-algorithm h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#urw-algorithm h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#urw-algorithm p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#urw-algorithm ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#urw-algorithm li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#urw-algorithm li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#urw-algorithm figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#urw-algorithm figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#urw-algorithm figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#urw-algorithm pre {
+    background: #0d1117;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#urw-algorithm code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3ABEFF;
+    font-size: 1rem;
+    display: block;
+}
+
+#urw-algorithm .external-link {
+    background: rgba(58, 190, 255, 0.1);
+    color: #3ABEFF;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    text-align: justify;
+}
+
+/* Section 5: Evaluation – Matrices and Smoothness Styling */
+
+#evaluation-urw {
+    background-color: #121212;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#evaluation-urw h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#evaluation-urw h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#evaluation-urw p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#evaluation-urw ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#evaluation-urw li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#evaluation-urw li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#evaluation-urw figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#evaluation-urw figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#evaluation-urw figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#evaluation-urw pre {
+    background: #0d1117;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#evaluation-urw code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3ABEFF;
+    font-size: 1rem;
+    display: block;
+}
+
+/* Section 6: Results – Unbiased Random Walk Trials Styling */
+
+#urw-results {
+    background-color: #121212;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#urw-results h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#urw-results h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#urw-results p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#urw-results ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#urw-results li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#urw-results li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#urw-results figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#urw-results figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#urw-results figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#urw-results pre {
+    background: #0d1117;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#urw-results code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #3ABEFF;
+    font-size: 1rem;
+    display: block;
+}
+
+#urw-results .matrix-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+#urw-results .matrix-grid figure {
+    flex: 1 1 calc(33.333% - 1rem);
+    text-align: center;
+}
+
+#urw-results .matrix-grid img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+/* Section 7: Analysis – Comparing URW and Start-End Styling */
+
+#analysis-urw-startend {
+    background-color: #121212;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#analysis-urw-startend h2 {
+    color: #00b4d8;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #00b4d8;
+    padding-bottom: 0.5rem;
+}
+
+#analysis-urw-startend h3 {
+    color: #00b4d8;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+}
+
+#analysis-urw-startend p {
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+    font-size: 1.05rem;
+    text-align: justify;
+    hyphens: auto;
+}
+
+#analysis-urw-startend ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#analysis-urw-startend li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+#analysis-urw-startend li::before {
+    content: "•";
+    color: #00b4d8;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+#analysis-urw-startend figure {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+#analysis-urw-startend figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+}
+
+#analysis-urw-startend figcaption {
+    font-style: italic;
+    color: #aaa;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}

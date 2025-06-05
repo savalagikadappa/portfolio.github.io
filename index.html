@@ -2,57 +2,59 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kadappa Savalagi - Portfolio</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <h1 class="logo">Kadappa Savalagi</h1>
-            <nav class="nav">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#skills">Skills</a>
-                <a href="#experience">Experience</a>
-                <a href="#chosen-domain">Domain</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Home Section -->
-    <section id="home" class="section home">
-        <div class="container">
-            <h2>Hello I'm Kadappa Savalagi , a software developer</h2>
-            <p>Explore my projects, skills, and experience.</p>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Welcome to CodeOdyssey – An APS Portfolio</h1>
+            <p>Explore the integration of Data Structures and Algorithms and their impact on
+                modern applications.</p>
         </div>
     </section>
 
-    <!-- About Me -->
-    <section id="about" class="section about">
+    <!-- Portfolio Details Section -->
+    <section id="portfolio-details" class="portfolio-details">
         <div class="container">
-            <h1>About Me</h1>
-            <p>
-                Hi, I'm Kadappa Savalagi
-                I'm a dedicated software developer with a strong proficiency in Data Structures & Algorithms, React,
-                Node.js, Express.js, and MongoDB, as well as a solid grasp of various database technologies. I love
-                solving challenging problems and building innovative applications.
-            </p>
-            <a href="resume.pdf" target="_blank" class="btn">View Resume</a>
+            <h2>Portfolio Details</h2>
+            <p><strong>Course Name:</strong> Algorithmic Problem Solving</p>
+            <p><strong>Name:</strong> Kadappa Savalagi</p>
+            <p><strong>SRN:</strong> 01FE22BCS181</p>
+            <p><strong>Course Instructor:</strong> Prakash Hegade</p>
+            <p><strong>University:</strong> KLE Technological University</p>
+            <p><strong>Portfolio Domain:</strong> Investopedia, Business Insider, Thinglabs.io</p>
+        </div>
+    </section>
+                        
+    <!-- Experience Roadmap Section -->
+    <section id="experience" class="experience">
+        <h2>Experience Roadmap</h2>
+        <div class="timeline">
+            <div class="container left">
+                <div class="content">
+                    <h3>Infosys <span>Mar 2025 – Present</span></h3>
+                    <p>Developed a training & exam platform using MERN stack; integrated JWT & Socket.io.</p>
+                </div>
+            </div>
+            <div class="container right">
+                <div class="content">
+                    <h3>SkillFlash <span>Nov 2024 – Feb 2025</span></h3>
+                    <p>Built a freelancing platform with secure messaging, JWT auth & Nodemailer automation.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Projects Section -->
-
-
     <section id="projects" class="section projects">
         <div class="container">
-            <h2>Projects</h2>
+            <h1>Projects</h1>
             <div class="project-grid">
                 <div class="project-card">
                     <h3>SkillFlash</h3>
@@ -81,19 +83,6 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>Weed Detection using YOLO11 & Soft-NMS</h3>
-                    <p>AI-powered system for detecting weeds in cotton crops using YOLO and OpenCV.</p>
-                    <ul>
-                        <li>Python</li>
-                        <li>OpenCV</li>
-                        <li>YOLO11</li>
-                    </ul>
-                    <div class="links">
-                        <a href="https://github.com/savalagikadappa/weed-detection-using-YOLO11"
-                            target="_blank">Repo</a>
-                    </div>
-                </div>
-                <div class="project-card">
                     <h3>QUIZ Application</h3>
                     <p>A JavaScript-based quiz application with a dynamic user interface.</p>
                     <ul>
@@ -102,17 +91,6 @@
                     <div class="links">
                         <a href="https://kadappaquiz.vercel.app" target="_blank">Live</a>
                         <a href="https://github.com/savalagikadappa/QUIZ-application" target="_blank">Repo</a>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <h3>Wce Hackathon2025</h3>
-                    <p>A React-Native App project developed for the WCE Hackathon 2025.</p>
-                    <ul>
-                        <li>React-Native</li>
-                        <li>JavaScript</li>
-                    </ul>
-                    <div class="links">
-                        <a href="https://github.com/savalagikadappa/WceHackathon2025_coders_01" target="_blank">Repo</a>
                     </div>
                 </div>
 
@@ -134,179 +112,27 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="section skills">
-        <div class="container">
-            <h2>Skills</h2>
-            <h3>Coding Profiles</h3>
-            <ul class="profiles">
-                <li><a href="https://leetcode.com/u/kadappasavalagi/" target="_blank">LeetCode</a></li>
-                <li><a href="https://codeforces.com/profile/itskadu" target="_blank">Codeforces</a></li>
-                <li><a href="https://www.codechef.com/users/kadappasavalag" target="_blank">CodeChef</a></li>
-                <li><a href="https://auth.geeksforgeeks.org/user/kadappasavalagi" target="_blank">GeeksforGeeks</a></li>
-                <li><a href="https://github.com/savalagikadappa" target="_blank">GitHub</a></li>
-            </ul>
-            <h3>Technical Skills</h3>
-            <ul class="skill-list">
-                <li>C/C++</li>
-                <li>Python</li>
-                <li>JavaScript</li>
-                <li>HTML/CSS</li>
-                <li>React.js</li>
-                <li>Node.js</li>
-                <li>Express.js</li>
-                <li>MongoDB</li>
-                <li>MySQL</li>
-                <li>Git</li>
-                <li>GitHub</li>
-                <li>AWS</li>
-                <li>Vercel</li>
-                <li>Heroku</li>
-                <li>Selenium</li>
-                <li>YOLO</li>
-                <li>OpenCV</li>
-                <li>Tailwind CSS</li>
-                <li>Bootstrap</li>
-            </ul>
-        </div>
-    </section>
+    <!-- Business Case Studies Section -->
+    <section class="business-case-studies">
+        <h1>Business Case Studies</h1>
 
-    <!-- Experience Section -->
-    <section id="experience" class="section experience">
-        <div class="container">
-            <h2>Experience</h2>
-            <div class="experience-entry">
-                <h3>MERN Stack Developer - SkillFlash</h3>
-                <p class="period">Nov 2024 – Feb 2025</p>
-                <ul>
-                    <li>Built a scalable freelancing platform using React.js and Express.js.</li>
-                    <li>Implemented authentication and session management using MongoDB and Node.js.</li>
-                    <li>Integrated email verification and password reset with Nodemailer.</li>
-                    <li>Created dashboards for freelancers and clients.</li>
-                </ul>
+        <!-- Business Case Study Card -->
+        <div class="business-case-card">
+            <h2 class="card-title">🎵 Smart Playlist Generation: Blending Music Algorithms</h2>
+            <div class="card-content">
+                <p><strong>📌 Problem:</strong> Traditional auto-playlist systems often lack smooth transitions and real human-like curation, reducing user engagement and retention.</p>
+                <p><strong>🌐 Use Cases:</strong> Music streaming apps, in-car entertainment, DJ automation, personalized soundtracks.</p>
+            </div>
+            <div class="card-footer">
+                <button class="view-case-study" onclick="window.location.href='spotify_case_study.html'">🔎 View Case Study</button>
             </div>
         </div>
     </section>
 
-
-    <section id="chosen-domain" class="section chosen-domain">
-        <div class="container">
-            <h2>Chosen Domain</h2>
-            <div class="domain-box">
-                <h3>Amazon</h3>
-                <div class="domain-goals">
-                    <div class="domain-goal">
-                        <h4>1. Elevating Delivery Expectations</h4>
-                        <p>Amazon continues to set the pace for fulfillment. In 2023, it delivered billions of units
-                            with same or next-day arrival, and in 2025, it plans to accelerate Prime delivery
-                            internationally with innovations like Vision-Assisted Package Retrieval (VAPR) saving over
-                            30 minutes per route.</p>
-                    </div>
-                    <div class="domain-goal">
-                        <h4>2. Prime Air and the Future of Drone Deliveries</h4>
-                        <p>Amazon’s Prime Air service aims to cut delivery times to as little as 30 minutes. With the
-                            rollout of the advanced MK30 drone—capable of longer distances and diverse weather
-                            operations—Amazon is setting the stage for a widespread drone delivery network in 2025.</p>
-                    </div>
-                    <div class="domain-goal">
-                        <h4>3. The Grocery Sector: Amazon's New Arena</h4>
-                        <p>Expanding Amazon Fresh and experimenting with free pickup and time-slot scheduling, Amazon
-                            leverages its fulfillment strength to capture grocery market share. By partnering with
-                            supermarkets, it redefines the expectations for fast, reliable grocery deliveries.</p>
-                    </div>
-                    <div class="domain-goal">
-                        <h4>4. Attracting International Sellers</h4>
-                        <p>Investing in tools and Regional Global Selling Centers, Amazon is streamlining cross-border
-                            shipping and offering localized support to international sellers. This initiative is aimed
-                            at competing with fast-growing platforms like Temu, Tmall Global, and JD Worldwide.</p>
-                    </div>
-                    <div class="domain-goal">
-                        <h4>5. Integrating Advanced AI: The Nova Models</h4>
-                        <p>With the debut of the Nova AI models, Amazon is pushing the boundaries of generative AI.
-                            These models power new AI solutions—from text processing to multimodal tasks—reinforcing
-                            Amazon’s leadership and transforming enterprise operations.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="contact" class="section">
+        <h2>Contact</h2>
+        <p>Content for the Contact section.</p>
     </section>
-
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact">
-        <div class="container">
-            <h2>Contact Me</h2>
-            <form id="contactForm" action="https://formspree.io/f/mldjyaae" method="POST">
-                <div class="form-control">
-                    <label for="email">Your Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-control">
-                    <label for="message">Your Message</label>
-                    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-                </div>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-            <p id="responseMessage" style="display: none; margin-top: 1rem; font-weight: bold;"></p>
-        </div>
-    </section>
-
-    <!-- Portfolio Details Section -->
-    <section id="portfolio-details" class="section portfolio-details">
-        <div class="container">
-            <h2>Portfolio Details</h2>
-            <div class="portfolio-content">
-                <p><strong>Course Name:</strong> Algorithmic Problem Solving</p>
-                <p><strong>Name:</strong> Kadappa Savalagi</p>
-                <p><strong>SRN:</strong> 01FE22BCS181</p>
-                <p><strong>Course Instructor:</strong> Prakash Hegade</p>
-                <p><strong>University:</strong> KLE Technological University</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Kadappa Savalagi · <a href="mailto:kadappasavalagi@gmail.com">kadappasavalagi@gmail.com</a>
-            </p>
-        </div>
-    </footer>
 </body>
-
-<script>
-    // Simple AJAX form submission using fetch
-    const form = document.getElementById('contactForm');
-    const responseMessage = document.getElementById('responseMessage');
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(form);
-        try {
-            const response = await fetch(form.action, {
-                method: form.method,
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            });
-            if (response.ok) {
-                responseMessage.style.display = 'block';
-                responseMessage.textContent = "Thank you for contacting me!";
-                form.reset();
-            } else {
-                const data = await response.json();
-                if (data.errors) {
-                    responseMessage.style.display = 'block';
-                    responseMessage.textContent = data.errors.map(error => error.message).join(", ");
-                } else {
-                    responseMessage.style.display = 'block';
-                    responseMessage.textContent = "Oops! There was a problem submitting your form.";
-                }
-            }
-        } catch (error) {
-            responseMessage.style.display = 'block';
-            responseMessage.textContent = "Oops! There was a problem submitting your form.";
-        }
-    });
-</script>
 
 </html>

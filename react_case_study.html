@@ -50,7 +50,7 @@
         </p>
         <figure>
             <img
-                src="/assets/virtual_dom.png"
+                src="./assets/virtual_dom.png"
                 alt="Real DOM vs. Virtual DOM comparison"
                 style="max-width:100%;height:auto;"
             />
@@ -355,7 +355,7 @@ void reconcile(const vector<VNode>& oldList, const vector<VNode>& newList) {
         <h3>React Fiber Relationship</h3>
 
         <figure>
-            <img src="/assets/react_fiber.png" alt="React Fiber Relationship Diagram" />
+            <img src="assets/react_fiber.png" alt="React Fiber Relationship Diagram" />
             <figcaption><strong>Fig:</strong> React Fiber relationship — Each fiber points to its <code>child</code>, <code>sibling</code>, and <code>return</code>. On the initial render, starting from the <code>HostRoot</code>, React constructs this tree of linked fibers for each React component and element like <code>div</code>, <code>span</code>, etc.</figcaption>
         </figure>
 
@@ -462,27 +462,32 @@ void workLoop(FiberNode* rootFiber) {
 
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script>
-      const btn = document.getElementById('view-algo');
-      const modal = document.getElementById('algo-modal');
-      const overlay = document.getElementById('algo-overlay');
-      const close = document.getElementById('close-algo');
+      document.addEventListener('DOMContentLoaded', () => {
+          const btn = document.getElementById('view-algo');
+          const modal = document.getElementById('algo-modal');
+          const overlay = document.getElementById('algo-overlay');
+          const close = document.getElementById('close-algo');
 
-      btn.addEventListener('click', () => {
-        modal.hidden = overlay.hidden = false;
-      });
+          if (btn) {
+              btn.addEventListener('click', () => {
+                  modal.hidden = overlay.hidden = false;
+              });
+          }
 
-      close.addEventListener('click', () => {
-        modal.hidden = overlay.hidden = true;
-      });
+          if (close) {
+              close.addEventListener('click', () => {
+                  modal.hidden = overlay.hidden = true;
+              });
+          }
 
-      overlay.addEventListener('click', () => {
-        modal.hidden = overlay.hidden = true;
+          if (overlay) {
+              overlay.addEventListener('click', () => {
+                  modal.hidden = overlay.hidden = true;
+              });
+          }
       });
-    </script>
-    <script>
-        // Initialize Prism.js for syntax highlighting
-        Prism.highlightAll();
     </script>
     <script>
         function toggleAlgorithm() {

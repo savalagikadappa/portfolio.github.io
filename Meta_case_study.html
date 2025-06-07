@@ -49,7 +49,7 @@
                 <img src="./assets/LSM_leveled_compactions.png" alt="LSM Tree with Leveled Compaction"
                     style="width:100%; max-width:650px;">
                 <figcaption>
-                    <strong>Figure 2:</strong> RocksDB's LSM Tree layout with <em>Leveled Compaction</em>. New SSTables
+                    <strong>Figure:</strong> RocksDB's LSM Tree layout with <em>Leveled Compaction</em>. New SSTables
                     are flushed from memory to disk and later merged level-by-level. <em>Source: RocksDB Wiki</em>.
                 </figcaption>
             </figure>
@@ -73,10 +73,10 @@
             </ul>
 
             <figure>
-                <img src="assets/amplication_vs_compaction.png" alt="Write amplification vs compaction style"
+                <img src="./assets/amplication_vs_compaction.png" alt="Write amplification vs compaction style"
                     style="width:100%; max-width:680px;">
                 <figcaption>
-                    <strong>Figure 3:</strong> Write amplification vs. compaction style. Meta used <em>Universal
+                    <strong>Figure :</strong> Write amplification vs. compaction style. Meta used <em>Universal
                         Compaction</em> for faster writes at the cost of space efficiency. <em>Source: ACM digital
                         library (DL) <a
                             href="https://dl.acm.org/doi/10.1145/3483840">https://dl.acm.org/doi/10.1145/3483840</a></em>.
@@ -91,9 +91,9 @@
             </p>
 
             <figure>
-                <img src="assets/sbf.png" alt="LSM Tree Layers with Bloom Filters" style="width:100%; max-width:680px;">
+                <img src="./assets/sbf.png" alt="LSM Tree Layers with Bloom Filters" style="width:100%; max-width:680px;">
                 <figcaption>
-                    <strong>Figure 4:</strong> Bloom Filters used with each SSTable to skip reading tables that don't
+                    <strong>Figure:</strong> Bloom Filters used with each SSTable to skip reading tables that don't
                     contain the queried key. <em>Source: O'Neil et al., LSM Tree paper</em>.
                 </figcaption>
             </figure>
@@ -138,7 +138,7 @@
 
                 <figure>
                     <img src="./assets/LSM_tree.png" alt="LSM Tree Architecture" width="650">
-                    <figcaption><strong>Figure 1:</strong> LSM Tree layers: writes enter C0 (in-memory) and flush to
+                    <figcaption><strong>Figure:</strong> LSM Tree layers: writes enter C0 (in-memory) and flush to
                         sorted disk-based levels (C1, C2...) via compaction. Source: Wikipedia</figcaption>
                     <p><a href="https://en.wikipedia.org/wiki/Log-structured_merge-tree" target="_blank">Source:
                             Log-structured Merge Tree</a></p>
@@ -274,8 +274,8 @@
                 </p>
 
                 <figure>
-                    <img src="assets/Bloom_filter.png" alt="Bloom Filter Diagram" width="600">
-                    <figcaption><strong>Figure 2:</strong> Bloom filters use multiple hashes to set bits in a bit array.
+                    <img src="./assets/Bloom_filter.png" alt="Bloom Filter Diagram" width="600">
+                    <figcaption><strong>Figure:</strong> Bloom filters use multiple hashes to set bits in a bit array.
                         All bits must be 1 to indicate potential membership. Source: Wikipedia</figcaption>
                     <p><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">Source: Bloom Filter</a></p>
                 </figure>
@@ -359,6 +359,58 @@
                     <li><strong>Insert/Search/Delete:</strong> O(log n)</li>
                     <li><strong>Flush:</strong> O(n), written sequentially to disk</li>
                 </ul>
+
+                <button id="toggleMemTableCodeButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">Show Code</button>
+                <div class="code-container" style="display: none;">
+                    <pre>
+#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+
+const std::string TOMBSTONE = "__TOMBSTONE__";
+
+class MemTable {
+    std::map&lt;std::string, std::string&gt; table;  // Red-Black Tree
+    size_t maxSize;
+
+public:
+    MemTable(size_t capacity) : maxSize(capacity) {}
+
+    bool isFull() const {
+        return table.size() &gt;= maxSize;
+    }
+
+    void insert(const std::string& key, const std::string& value) {
+        table[key] = value;
+    }
+
+    bool get(const std::string& key, std::string* value) const {
+        auto it = table.find(key);
+        if (it != table.end()) {
+            *value = it-&gt;second;
+            return true;
+        }
+        return false;
+    }
+
+    void erase(const std::string& key) {
+        table[key] = TOMBSTONE;  // Mark for deletion
+    }
+
+    void flushToDisk() const {
+        std::cout &lt;&lt; "Flushing MemTable to SSTable:\n";
+        for (const auto& [key, value] : table) {
+            std::cout &lt;&lt; key &lt;&lt; " : " &lt;&lt; value &lt;&lt; "\n";
+        }
+    }
+
+    void clear() {
+        table.clear();
+    }
+};
+                    </pre>
+                    <p><a href="https://github.com/facebook/rocksdb/blob/main/db/memtable.cc" target="_blank">Source: RocksDB GitHub</a></p>
+                </div>
             </article>
 
             <!-- 4. Compaction -->
@@ -384,12 +436,70 @@
                 </p>
 
                 <figure>
-                    <img src="assets/Leveled_compaction.png" alt="Leveled Compaction in RocksDB" width="650">
-                    <figcaption><strong>Figure 3:</strong> In Leveled Compaction, newer SSTables are merged downward
+                    <img src="./assets/Leveled_compaction.png" alt="Leveled Compaction in RocksDB" width="650">
+                    <figcaption><strong>Figure:</strong> In Leveled Compaction, newer SSTables are merged downward
                         into larger levels. Source: RocksDB GitHub Wiki</figcaption>
                     <p><a href="https://github.com/facebook/rocksdb/wiki/Memtable" target="_blank">Source: MemTable</a>
                     </p>
                 </figure>
+
+                
+
+                <button id="toggleCompactionCodeButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">Show Code</button>
+                <div class="code-container" style="display: none;">
+                    <pre>
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+class SSTable {
+public:
+    std::map&lt;std::string, std::string&gt; data;  // Simplified key-value map
+    int level;
+
+    SSTable(int lvl) : level(lvl) {}
+
+    void insert(const std::string& key, const std::string& value) {
+        data[key] = value;
+    }
+};
+
+class Compactor {
+public:
+    // Perform leveled compaction from Level N to Level N+1
+    SSTable* compact(std::vector&lt;SSTable*&gt;& levelN, std::vector&lt;SSTable*&gt;& levelNp1) {
+        SSTable* output = new SSTable(levelN[0]->level + 1);
+
+        std::map&lt;std::string, std::string&gt; merged;
+
+        // Step 1: Merge all SSTables in Level N and Level N+1
+        for (auto sst : levelN) {
+            for (auto& [key, value] : sst->data) {
+                merged[key] = value;  // Overwrite if duplicate key
+            }
+        }
+
+        for (auto sst : levelNp1) {
+            for (auto& [key, value] : sst->data) {
+                if (merged.find(key) == merged.end()) {
+                    merged[key] = value;
+                }
+            }
+        }
+
+        // Step 2: Filter tombstones (deleted keys)
+        for (const auto& [key, value] : merged) {
+            if (value != "__TOMBSTONE__") {
+                output->insert(key, value);
+            }
+        }
+
+        return output;
+    }
+};
+                    </pre>
+                    <p><a href="https://github.com/facebook/rocksdb/blob/main/db/compaction/compaction_job.cc" target="_blank">Source: RocksDB GitHub</a></p>
+                </div>
 
                 <h4>⏱ Complexity</h4>
                 <ul>
@@ -414,18 +524,86 @@
                 </p>
 
                 <figure>
-                    <img src="assets/LRU_cache.png" alt="LRU Cache Mechanism" width="600">
-                    <figcaption><strong>Figure 4:</strong> LRU cache mechanism stores frequently accessed items at the
-                        front of a list, evicts least-recently-used ones. Source: Wikipedia</figcaption>
-                    <p><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies" target="_blank">Source: Cache
-                            Replacement Policies</a></p>
+                    <img src="./assets/LRU_cache.png" alt="LRU Cache Mechanism" width="600">
+                    <figcaption><strong>Figure:</strong> LRU cache mechanism stores frequently accessed items at the front of a list, evicts least-recently-used ones. Source: Wikipedia</figcaption>
+                    <p><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies" target="_blank">Source: Cache Replacement Policies</a></p>
                 </figure>
 
-                <h4>⏱ Time Complexity</h4>
-                <ul>
-                    <li><strong>Lookup:</strong> O(1)</li>
-                    <li><strong>Insert/Evict:</strong> O(1)</li>
-                </ul>
+                <button id="toggleLRUCacheCodeButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">Show Code</button>
+                <div class="code-container" style="display: none;">
+                    <pre>
+#include &lt;unordered_map&gt;
+#include &lt;list&gt;
+#include &lt;iostream&gt;
+
+template &lt;typename K, typename V&gt;
+class LRUCache {
+    size_t capacity;
+
+    // Doubly-linked list: {key, value}
+    std::list&lt;std::pair&lt;K, V&gt;&gt; itemList;
+
+    // Hash map: key → iterator to itemList
+    std::unordered_map&lt;K, typename std::list&lt;std::pair&lt;K, V&gt;&gt;::iterator&gt; itemMap;
+
+public:
+    LRUCache(size_t cap) : capacity(cap) {}
+
+    // Lookup (Read)
+    bool get(const K& key, V& value) {
+        auto it = itemMap.find(key);
+        if (it == itemMap.end()) return false;
+
+        // Move the accessed item to the front (most recently used)
+        itemList.splice(itemList.begin(), itemList, it->second);
+        value = it->second->second;
+        return true;
+    }
+
+    // Insert or Update
+    void put(const K& key, const V& value) {
+        auto it = itemMap.find(key);
+
+        if (it != itemMap.end()) {
+            // Update and move to front
+            it->second->second = value;
+            itemList.splice(itemList.begin(), itemList, it->second);
+        } else {
+            // Insert new key
+            if (itemList.size() == capacity) {
+                // Evict least recently used
+                auto lru = itemList.back();
+                itemMap.erase(lru.first);
+                itemList.pop_back();
+            }
+            itemList.emplace_front(key, value);
+            itemMap[key] = itemList.begin();
+        }
+    }
+
+    void display() {
+        std::cout &lt;&lt; "Cache: ";
+        for (auto& [k, v] : itemList)
+            std::cout &lt;&lt; "[" &lt;&lt; k &lt;&lt; ":" &lt;&lt; v &lt;&lt; "] ";
+        std::cout &lt;&lt; "\n";
+    }
+};
+                    </pre>
+                    <p><a href="https://github.com/facebook/rocksdb/blob/main/cache/lru_cache.h" target="_blank">Source: RocksDB GitHub</a></p>
+
+                </div>
+                <script>
+                    document.getElementById('toggleLRUCacheCodeButton').addEventListener('click', function() {
+                        const codeContainer = this.nextElementSibling;
+                        codeContainer.style.display = codeContainer.style.display === 'none' ? 'block' : 'none';
+                    });
+                </script>
+
+                  <h4>⏱ Time Complexity</h4>
+                    <ul>
+                        <li><strong>Lookup:</strong> O(1)</li>
+                        <li><strong>Insert/Evict:</strong> O(1)</li>
+                    </ul>
             </article>
 
             <!-- Summary Table -->
@@ -539,19 +717,6 @@
                     </tbody>
                 </table>
 
-                <h3>Real Performance Gains</h3>
-                <p>
-                    According to internal benchmarks:
-                </p>
-
-                <figure>
-                    <img src="https://miro.medium.com/v2/resize:fit:1200/format:webp/1*0S_F2I-5mDwXTw0Jj8UOqQ.png"
-                        alt="RocksDB Read Latency Chart" width="650">
-                    <figcaption>
-                        <strong>Figure 6:</strong> Tail latency improvement after switching to RocksDB. Source:
-                        Engineering Blog
-                    </figcaption>
-                </figure>
             </div>
         </section>
 
@@ -680,6 +845,21 @@
                         this.textContent = "Show Code";
                     }
                 });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleButton = document.getElementById("toggleLRUCacheCodeButton");
+            const codeContainer = toggleButton.nextElementSibling;
+
+            toggleButton.addEventListener("click", function() {
+                if (codeContainer.style.display === "none") {
+                    codeContainer.style.display = "block";
+                    toggleButton.textContent = "Hide Code";
+                } else {
+                    codeContainer.style.display = "none";
+                    toggleButton.textContent = "Show Code";
+                }
             });
         });
     </script>

@@ -7,14 +7,15 @@
     <title>Kadappa Savalagi - Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 
 <body>
     <!-- Hero Section -->
     <section id="hero" class="hero">
         <div class="hero-content">
-            <h1>Welcome to CodeOdyssey – An APS Portfolio</h1>
-            <p>Explore the integration of Data Structures and Algorithms and their impact on
+            <h1>Welcome to MetaOdyssey – An APS Portfolio</h1>
+            <p>Explore the integration of Data Structures and Algorithms in Meta Based software systems and their impact on
                 modern applications.</p>
         </div>
     </section>
@@ -28,7 +29,44 @@
             <p><strong>SRN:</strong> 01FE22BCS181</p>
             <p><strong>Course Instructor:</strong> Prakash Hegade</p>
             <p><strong>University:</strong> KLE Technological University</p>
-            <p><strong>Portfolio Domain:</strong> Investopedia, Business Insider, Thinglabs.io</p>
+            <p><strong>Portfolio Domain:</strong> Meta,Facebook Inc</p>
+        </div>
+    </section>
+
+    <!-- Updated Introduction Section -->
+    <section id="introduction" class="introduction">
+        <div class="container">
+            <h1 class="about-heading">About Me</h1>
+            <div class="about-me">
+                <p>I am Kadappa Savalagi, a Full Stack Web Developer and Computer Science student at KLE Technological University. Skilled in the MERN stack, I have built secure, scalable web applications with real-world experience from internships at Infosys and SkillFlash. Passionate about clean code and continuous learning, I also enjoy competitive programming, having solved 1000+ DSA problems with strong rankings on Codeforces and CodeChef.</p>
+                <button class="view-resume" onclick="window.open('https://drive.google.com/file/d/1w8oFqe0zfRjce3Dg1MXAxszOSJgUkSpJ/view?usp=sharing', '_blank')">View Resume</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <h2>Coding Profiles</h2>
+        <div class="coding-profiles">
+            <a href="https://leetcode.com/u/kadappasavalagi/" target="_blank" class="profile-box">LeetCode</a>
+            <a href="https://codeforces.com/profile/itskadu" target="_blank" class="profile-box">Codeforces</a>
+            <a href="https://www.codechef.com/users/kadappasavalag" target="_blank" class="profile-box">CodeChef</a>
+            <a href="https://www.geeksforgeeks.org/user/kadappasavalagi/" target="_blank" class="profile-box">GeeksforGeeks</a>
+            <a href="https://github.com/savalagikadappa" target="_blank" class="profile-box">GitHub</a>
+        </div>
+
+        <h2>Technical Skills</h2>
+        <div class="technical-skills">
+            <div class="skill-item"><i class="fas fa-code"></i> C/C++</div>
+            <div class="skill-item"><i class="fab fa-python"></i> Python</div>
+            <div class="skill-item"><i class="fab fa-js"></i> JavaScript</div>
+            <div class="skill-item"><i class="fab fa-html5"></i> HTML/CSS</div>
+            <div class="skill-item"><i class="fab fa-react"></i> React.js</div>
+            <div class="skill-item"><i class="fab fa-node-js"></i> Node.js</div>
+            <div class="skill-item"><i class="fas fa-server"></i> Express.js</div>
+            <div class="skill-item"><i class="fas fa-database"></i> MongoDB</div>
+            <div class="skill-item"><i class="fab fa-aws"></i> AWS</div>
+            <div class="skill-item"><i class="fab fa-bootstrap"></i> Bootstrap</div>
         </div>
     </section>
 
@@ -116,20 +154,7 @@
     <section class="business-case-studies">
         <h1>Business Case Studies</h1>
 
-        <!-- Business Case Study Card -->
-        <div class="business-case-card">
-            <h2 class="card-title">🎵 Smart Playlist Generation: Blending Music Algorithms</h2>
-            <div class="card-content">
-                <p><strong>📌 Problem:</strong> Traditional auto-playlist systems often lack smooth transitions and real
-                    human-like curation, reducing user engagement and retention.</p>
-                <p><strong>🌐 Use Cases:</strong> Music streaming apps, in-car entertainment, DJ automation,
-                    personalized soundtracks.</p>
-            </div>
-            <div class="card-footer">
-                <button class="view-case-study" onclick="window.location.href='spotify_case_study.html'">🔎 View Case
-                    Study</button>
-            </div>
-        </div>
+      
 
         <!-- Business Study Card: Personalized Search at Scale -->
         <div class="business-case-card">
@@ -162,11 +187,42 @@
                     Study</button>
             </div>
         </div>
+
+          <!-- Business Case Study Card -->
+        <div class="business-case-card">
+            <h2 class="card-title">🎵 Smart Playlist Generation: Blending Music Algorithms</h2>
+            <div class="card-content">
+                <p><strong>📌 Problem:</strong> Traditional auto-playlist systems often lack smooth transitions and real
+                    human-like curation, reducing user engagement and retention.</p>
+                <p><strong>🌐 Use Cases:</strong> Music streaming apps, in-car entertainment, DJ automation,
+                    personalized soundtracks.</p>
+            </div>
+            <div class="card-footer">
+                <button class="view-case-study" onclick="window.location.href='spotify_case_study.html'">🔎 View Case
+                    Study</button>
+            </div>
+        </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact" class="section">
         <h2>Contact</h2>
-        <p>Content for the Contact section.</p>
+        <p>Email: <a href="mailto:kadappasavalagi@gmail.com">kadappasavalagi@gmail.com</a></p>
+        <p>Phone: +91 8660195703</p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/kadappasavalagi" target="_blank">linkedin.com/in/kadappasavalagi</a></p>
+
+        <form id="contact-form" action="mailto:kadappasavalagi@gmail.com" method="post" enctype="text/plain">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
     </section>
 </body>
 

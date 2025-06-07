@@ -55,7 +55,7 @@
                 style="max-width:100%;height:auto;"
             />
             <figcaption>
-                <strong>Figure 1:</strong> React performs changes in memory by diffing the old and new Virtual DOMs before applying minimal updates to the real DOM. <em>Source: GeeksForGeeks</em>
+                <strong>Figure:</strong> Virtual DOM tree representation.
             </figcaption>
         </figure>
 
@@ -163,7 +163,7 @@ function changed(n1, n2) {
         <p><strong>Source:</strong> Inspired by <a href="https://github.com/alexcambose/virtual-dom" target="_blank" style="color:white;">alexcambose/virtual-dom</a> and <a href="https://jguegant.github.io/blogs/tech/dense-hash-map.html" target="_blank" style="color:white;">Dense Hash Map</a></p>
         <figure>
             <img
-                src="assets/diffing_process.png"
+                src="./assets/diffing_process.png"
                 alt="Diffing Process Illustration"
                 style="max-width:100%;height:auto;"
             />
@@ -274,7 +274,7 @@ void reconcile(const vector<VNode>& oldList, const vector<VNode>& newList) {
         </ol>
         <figure>
             <img
-                src="assets/unordered_map.png"
+                src="./assets/unordered_map.png"
                 alt="Unordered Map Illustration"
                 style="max-width:100%;height:auto;"
             />
@@ -355,7 +355,7 @@ void reconcile(const vector<VNode>& oldList, const vector<VNode>& newList) {
         <h3>React Fiber Relationship</h3>
 
         <figure>
-            <img src="assets/react_fiber.png" alt="React Fiber Relationship Diagram" />
+            <img src="./assets/react_fiber.png" alt="React Fiber Relationship Diagram" />
             <figcaption><strong>Fig:</strong> React Fiber relationship — Each fiber points to its <code>child</code>, <code>sibling</code>, and <code>return</code>. On the initial render, starting from the <code>HostRoot</code>, React constructs this tree of linked fibers for each React component and element like <code>div</code>, <code>span</code>, etc.</figcaption>
         </figure>
 

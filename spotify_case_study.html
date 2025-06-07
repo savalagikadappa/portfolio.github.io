@@ -29,9 +29,9 @@
                 global ratio pattern but still transition abruptly. This can break flow and degrade listening experience.
             </p>
             <div class="image-container">
-                <img src="/assets/figure16_similarity_jump.png" alt="Start-End Algorithm Similarity Jumps">
+                <img src="./assets/figure16_similarity_jump.png" alt="Start-End Algorithm Similarity Jumps">
                 <div class="caption">
-                    “Start-End algorithm permits similarity jumps — adjacent similarity is not guaranteed.”
+                    <strong>Figure:</strong> Start-End algorithm permits similarity jumps 
                 </div>
             </div>
             <p>
@@ -94,8 +94,10 @@ Output: Weighted directed graph G = (V, w)
 
         <!-- Figure 1 ------------------------------------------------------------------>
         <figure>
-            <img src="assets/figure1_eas_graph.png" alt="Weighted graph from EAS playlists">
-            <figcaption><strong>Figure 1:</strong> Weighted adjacency graph generated from curated playlists using Algorithm 1.</figcaption>
+            <img src="./assets/figure1_eas_graph.png" alt="Weighted graph from EAS playlists">
+            <figcaption>
+                <strong>Figure:</strong> Weighted adjacency graph generated from curated playlists using Algorithm 1.
+            </figcaption>
         </figure>
 
         <!-- 2.3 Calculating Song Similarities ---------------------------------------->
@@ -109,8 +111,10 @@ Output: Weighted directed graph G = (V, w)
 
         <!-- Figure 2 ------------------------------------------------------------------>
         <figure>
-            <img src="assets/figure2_oneway_similarity.png" alt="One-way song similarity example">
-            <figcaption><strong>Figure 2:</strong> One-way similarity values derived from edge weights, based on outgoing transitions from song A.</figcaption>
+            <img src="./assets/figure2_oneway_similarity.png" alt="One-way song similarity example">
+            <figcaption>
+                <strong>Figure:</strong> One-way similarity values derived from edge weights, based on outgoing transitions from song A.
+            </figcaption>
         </figure>
 
         <h4>Two-Way Similarity</h4>
@@ -120,8 +124,10 @@ Output: Weighted directed graph G = (V, w)
 
         <!-- Figure 3 ------------------------------------------------------------------>
         <figure>
-            <img src="assets/figure3_twoway_similarity.png" alt="Two-way song similarity example">
-            <figcaption><strong>Figure 3:</strong> Two-way similarity calculation balances popularity of both connected songs, offering more nuanced similarity values.</figcaption>
+            <img src="./assets/figure3_twoway_similarity.png" alt="Two-way song similarity example">
+            <figcaption>
+                <strong>Figure:</strong> Two-way similarity calculation balances popularity of both connected songs, offering more nuanced similarity values.
+            </figcaption>
         </figure>
 
 
@@ -152,11 +158,10 @@ Output: Weighted directed graph G = (V, w)
 
             <!-- Figure 5 – ideal vs real ratios -------------------------------------->
             <figure>
-                <img src="assets/figure5_ideal_vs_real.png"
+                <img src="./assets/figure5_ideal_vs_real.png"
                      alt="Ideal vs real similarity ratios along the number line">
                 <figcaption>
-                    <strong>Figure&nbsp;5:</strong> Mapping ideal similarity ratios (evenly spaced ticks)
-                    to the nearest real songs in the catalogue.
+                    <strong>Figure:</strong> Mapping ideal similarity ratios (evenly spaced ticks) to the nearest real songs in the catalogue.
                 </figcaption>
             </figure>
 
@@ -179,11 +184,10 @@ Output: Ordered playlist P
 
             <!-- Figure 6 – selection process ----------------------------------------->
             <figure>
-                <img src="assets/figure6_selection_process.png"
+                <img src="./assets/figure6_selection_process.png"
                      alt="Selecting songs closest to target ratios">
                 <figcaption>
-                    <strong>Figure&nbsp;6:</strong> Selection of real tracks (A…I) that best match the
-                    target similarity ratio positions → final ordering ADECFHGIB.
+                    <strong>Figure:</strong> Selection of real tracks (A…I) that best match the target similarity ratio positions → final ordering ADECFHGIB.
                 </figcaption>
             </figure>
 
@@ -254,9 +258,9 @@ Output: playlist of songs from Ss to Se (or empty list)
 
             <!-- 4.3 Visual: Convergence Graph ------------------------------------------>
             <figure>
-              <img src="assets/figure7_urw_convergence.png" alt="Greedy URW convergence diagram">
+              <img src="./assets/figure7_urw_convergence.png" alt="Greedy URW convergence diagram">
               <figcaption>
-                <strong>Figure 7:</strong> As greediness <code>z → ∞</code>, URW becomes deterministic
+                <strong>Figure:</strong> As greediness <code>z → ∞</code>, URW becomes deterministic
                 — always choosing the most similar neighbor. But this increases the risk of getting stuck.
               </figcaption>
             </figure>
@@ -322,8 +326,10 @@ Output: playlist of songs from Ss to Se (or empty list)
 
         <!-- Image: Example Matrix -->
         <figure>
-          <img src="assets/similarity_matrix_example.png" alt="Similarity Matrix Example" style="max-width: 100%;" />
-          <figcaption><strong>Figure 8:</strong> Example similarity matrix (one-way, greediness = 4).</figcaption>
+          <img src="./assets/similarity_matrix_example.png" alt="Similarity Matrix Example" style="max-width: 100%;" />
+          <figcaption>
+            <strong>Figure:</strong> Example similarity matrix (one-way, greediness = 4).
+          </figcaption>
         </figure>
 
         <!-- 5.4 Insights -->
@@ -336,8 +342,10 @@ Output: playlist of songs from Ss to Se (or empty list)
 
         <!-- Image: Greediness Comparison -->
         <figure>
-          <img src="assets/greediness_comparison_chart.png" alt="Greediness vs Smoothness Chart" style="max-width: 100%;" />
-          <figcaption><strong>Figure 9:</strong> Adjacent similarity improves with greediness, but too high may reduce success rate.</figcaption>
+          <img src="./assets/greediness_comparison_chart.png" alt="Greediness vs Smoothness Chart" style="max-width: 100%;" />
+          <figcaption>
+            <strong>Figure:</strong> Adjacent similarity improves with greediness, but too high may reduce success rate.
+          </figcaption>
         </figure>
 
         <!-- External Sources -->
@@ -383,13 +391,13 @@ Output: playlist of songs from Ss to Se (or empty list)
         </p>
 
         <figure>
-          <img src="assets/adjacent_similarity_oneway.png" alt="One-way Similarity Line Graph" style="max-width: 100%;" />
-          <figcaption><strong>Figure 10:</strong> One-way similarity (adjacent similarity across 20 songs).</figcaption>
+          <img src="./assets/adjacent_similarity_oneway.png" alt="One-way Similarity Line Graph" style="max-width: 100%;" />
+          <figcaption><strong>Figure:</strong> One-way similarity (adjacent similarity across 20 songs).</figcaption>
         </figure>
 
         <figure>
-          <img src="assets/adjacent_similarity_twoway.png" alt="Two-way Similarity Line Graph" style="max-width: 100%;" />
-          <figcaption><strong>Figure 11:</strong> Two-way similarity (adjacent similarity across 20 songs).</figcaption>
+          <img src="./assets/adjacent_similarity_twoway.png" alt="Two-way Similarity Line Graph" style="max-width: 100%;" />
+          <figcaption><strong>Figure:</strong> Two-way similarity (adjacent similarity across 20 songs).</figcaption>
         </figure>
 
         <!-- 6.3 Heatmaps -->
@@ -402,15 +410,15 @@ Output: playlist of songs from Ss to Se (or empty list)
         <h4>One-Way Similarity</h4>
         <div class="matrix-grid">
           <figure>
-            <img src="assets/urw_1way_z1.png" alt="One-way Matrix z=1" />
+            <img src="./assets/urw_1way_z1.png" alt="One-way Matrix z=1" />
             <figcaption>z = 1 (Low Greediness)</figcaption>
           </figure>
           <figure>
-            <img src="assets/urw_1way_z4.png" alt="One-way Matrix z=4" />
+            <img src="./assets/urw_1way_z4.png" alt="One-way Matrix z=4" />
             <figcaption>z = 4 (Medium Greediness)</figcaption>
           </figure>
           <figure>
-            <img src="assets/urw_1way_z7.png" alt="One-way Matrix z=7" />
+            <img src="./assets/urw_1way_z7.png" alt="One-way Matrix z=7" />
             <figcaption>z = 7 (High Greediness)</figcaption>
           </figure>
         </div>
@@ -419,15 +427,15 @@ Output: playlist of songs from Ss to Se (or empty list)
         <h4>Two-Way Similarity</h4>
         <div class="matrix-grid">
           <figure>
-            <img src="assets/urw_2way_z1.png" alt="Two-way Matrix z=1" />
+            <img src="./assets/urw_2way_z1.png" alt="Two-way Matrix z=1" />
             <figcaption>z = 1 (Low Greediness)</figcaption>
           </figure>
           <figure>
-            <img src="assets/urw_2way_z4.png" alt="Two-way Matrix z=4" />
+            <img src="./assets/urw_2way_z4.png" alt="Two-way Matrix z=4" />
             <figcaption>z = 4 (Medium Greediness)</figcaption>
           </figure>
           <figure>
-            <img src="assets/urw_2way_z7.png" alt="Two-way Matrix z=7" />
+            <img src="./assets/urw_2way_z7.png" alt="Two-way Matrix z=7" />
             <figcaption>z = 7 (High Greediness)</figcaption>
           </figure>
         </div>
@@ -466,8 +474,10 @@ Output: playlist of songs from Ss to Se (or empty list)
         </ul>
 
         <figure>
-          <img src="assets/startend_weakness.png" alt="Start-End Algorithm Flaw Illustration" style="max-width: 100%;" />
-          <figcaption><strong>Figure 12:</strong> Start-End's use of similarity ratios may result in uneven transitions.</figcaption>
+          <img src="./assets/startend_weakness.png" alt="Start-End Algorithm Flaw Illustration" style="max-width: 100%;" />
+          <figcaption>
+            <strong>Figure:</strong> Start-End's use of similarity ratios may result in uneven transitions.
+          </figcaption>
         </figure>
 
         <!-- 7.2 Strengths of URW -->
@@ -514,8 +524,10 @@ Output: playlist of songs from Ss to Se (or empty list)
 
         <!-- Optional Visual -->
         <figure>
-          <img src="assets/urw_deadend_example.png" alt="Dead End Example in URW" style="max-width: 100%;" />
-          <figcaption><strong>Figure 13:</strong> Too much greediness may trap the algorithm with no valid next steps.</figcaption>
+          <img src="./assets/urw_deadend_example.png" alt="Dead End Example in URW" style="max-width: 100%;" />
+          <figcaption>
+            <strong>Figure:</strong> Too much greediness may trap the algorithm with no valid next steps.
+          </figcaption>
         </figure>
 
         <p>
@@ -524,6 +536,70 @@ Output: playlist of songs from Ss to Se (or empty list)
       </div>
     </section>
 
+
+     <!-- Section 10 · Efficiency Case Study -->
+    <section id="efficiency-summary-playlist-generation" class="snap">
+      <div class="container">
+        <h2>⚙️ Efficiency Summary – Playlist Generation Algorithms</h2>
+        <table class="efficiency-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Data Structure / Concept</th>
+              <th>Operation</th>
+              <th>Time Complexity</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EAS Graph</td>
+              <td>Directed Weighted Graph</td>
+              <td>Graph Construction</td>
+              <td>O(n)</td>
+              <td>Models expert-curated transitions between songs</td>
+            </tr>
+            <tr>
+              <td>Start-End Algorithm</td>
+              <td>Sorted List + Ratio Ranking</td>
+              <td>Global Ranking, Interpolation</td>
+              <td>O(n log n)</td>
+              <td>Selects evenly spaced songs from start to end</td>
+            </tr>
+            <tr>
+              <td>Similarity Lookup</td>
+              <td>Adjacency Matrix / Edge List</td>
+              <td>sim(u, v) calculation</td>
+              <td>O(1) for matrix, O(d) list</td>
+              <td>Evaluates similarity between songs for path planning</td>
+            </tr>
+            <tr>
+              <td>URW Algorithm</td>
+              <td>Randomized Walk over Graph</td>
+              <td>Local Neighbor Sampling & Selection</td>
+              <td>O(p × z)</td>
+              <td>Builds smooth playlists using local similarity</td>
+            </tr>
+            <tr>
+              <td>Greediness Heuristic</td>
+              <td>Random Sampling + Max Scoring</td>
+              <td>Pick best from z neighbors</td>
+              <td>O(z) per step</td>
+              <td>Controls trade-off between randomness and smoothness</td>
+            </tr>
+          </tbody>
+        </table>
+        <p><strong>Notes:</strong></p>
+        <ul>
+          <li><code>n</code> = total number of songs</li>
+          <li><code>p</code> = desired playlist length</li>
+          <li><code>z</code> = greediness level (neighbors checked per step)</li>
+          <li><code>d</code> = average degree of a node in the graph</li>
+        </ul>
+      </div>
+    </section>
+
+    
     <!-- Section 9 · Conclusion and References -->
     <section id="conclusion-references" class="snap">
       <div class="container">
@@ -588,6 +664,39 @@ Output: playlist of songs from Ss to Se (or empty list)
         </p>
       </div>
     </section>
+
+   
+
+    <style>
+      .efficiency-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa; /* Light gray background */
+      }
+
+      .efficiency-table th, .efficiency-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+        color: #333; /* Dark text */
+      }
+
+      .efficiency-table th {
+        background-color: #6c757d; /* Dark gray header */
+        color: #fff; /* White text for header */
+        font-weight: 600;
+      }
+
+      .efficiency-table tr:nth-child(even) {
+        background-color: #e9ecef; /* Slightly darker gray for even rows */
+      }
+
+      .efficiency-table tr:hover {
+        background-color: #adb5bd; /* Highlight row on hover */
+      }
+    </style>
 </body>
 
 </html>

@@ -1,4 +1,6 @@
 /* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -6,27 +8,25 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background: #000000;
-    color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.7;
     min-height: 100vh;
-    background-image:
-        radial-gradient(circle at 20% 80%, rgba(30, 144, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(30, 144, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(30, 144, 255, 0.05) 0%, transparent 50%);
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+    background-attachment: fixed;
+    padding: 40px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    overflow-x: auto;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Center the body within the viewport */
 }
 
 .container {
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem;
+        align-items: center;
+
 }
 
 section {
@@ -37,6 +37,14 @@ section {
     border: 1px solid rgba(30, 144, 255, 0.2);
     box-shadow: 0 8px 32px rgba(30, 144, 255, 0.1);
     backdrop-filter: blur(10px);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Set max width for all components */
+.container, section, table, figure {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Typography */
@@ -396,6 +404,10 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto; /* Center the body within the viewport */
 }
 
 #core-data-structures {
@@ -534,6 +546,12 @@ table {
     border: 1px solid rgba(64, 224, 255, 0.3);
 }
 
+/* Ensure tables are constrained to 900px max width */
+table {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 th,
 td {
     padding: 1rem;
@@ -605,81 +623,140 @@ table strong {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #40e0ff;
+    background: linear-gradient(180deg, #87ceeb, #00bfff);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #7dd3fc;
+    background: linear-gradient(180deg, #00bfff, #87ceeb);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    #core-data-structures {
-        padding: 1rem;
+/* Specific styles for code container */
+.code-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(15, 15, 23, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.code-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00f5ff, transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+.code-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 16px;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.control.close { background: #ff5f57; }
+.control.minimize { background: #ffbd2e; }
+.control.maximize { background: #28ca42; }
+
+.file-name {
+    color: #8b949e;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #e6edf3;
+    text-align: left;
+    counter-reset: line;
+}
+
+.line {
+    display: block;
+    padding-left: 60px;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.line:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.line::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 50px;
+    text-align: right;
+    color: #6e7681;
+    font-size: 12px;
+    padding-right: 16px;
+    user-select: none;
+}
+
+/* Syntax highlighting */
+.keyword { color: #ff7b72; font-weight: 500; }
+.type { color: #79c0ff; }
+.string { color: #a5d6ff; }
+.comment { color: #8b949e; font-style: italic; }
+.operator { color: #ff7b72; }
+.number { color: #79c0ff; }
+.function { color: #d2a8ff; }
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+@keyframes glow {
+    0%, 100% { 
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.8),
+            0 0 0 1px rgba(255, 255, 255, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    h3 {
-        font-size: 1.5rem;
-    }
-
-    article {
-        padding: 1.5rem;
-    }
-
-    table {
-        font-size: 0.9rem;
-    }
-
-    th,
-    td {
-        padding: 0.5rem;
+    50% { 
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.8),
+            0 0 20px rgba(0, 245, 255, 0.1),
+            0 0 0 1px rgba(0, 245, 255, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
 }
 
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-article {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-article:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-article:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-article:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-article:nth-child(5) {
-    animation-delay: 0.4s;
-}
-
-article:nth-child(6) {
-    animation-delay: 0.5s;
-}
-
-article:nth-child(7) {
-    animation-delay: 0.6s;
+.code-container:hover {
+    animation: glow 2s ease-in-out infinite;
 }
 
 /* Section 3: Time Efficiency & Tradeoffs */
@@ -801,6 +878,12 @@ article:nth-child(7) {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure tables are constrained to 900px max width */
+#efficiency-tradeoffs .table {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 #efficiency-tradeoffs .table thead {
@@ -1086,6 +1169,13 @@ em {
 strong {
     color: #87CEEB;
     font-weight: 600;
+}
+
+/* Center containers within the body */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Responsive design */

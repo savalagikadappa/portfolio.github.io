@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta Case Study</title>
+    <link href="https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Meta_case_study.css">
+    <link rel="stylesheet" href="code_container.css">
+</head>
+
+<body>
+    <div class="container">
+        <section id="introduction">
+            <h2>Section 1: Introduction and Motivation</h2>
+
+            <p>
+                Personalized search lies at the heart of Meta's user experience. To deliver fast, accurate, and
+                real-time recommendations to millions of users across a petabyte-scale dataset, Meta needed more than a
+                conventional database—it needed a storage engine built around <strong>write-optimized data
+                    structures</strong>, efficient compaction strategies, and SSD-aware caching layers.
+            </p>
+
+            <p>
+                This section explores the architectural evolution that led Meta to adopt <strong>RocksDB</strong> to
+                power personalized search at scale.
+            </p>
+
+            <p>
+                Meta responded by building a modular, embedded key-value engine based on <a
+                    href="https://github.com/facebook/rocksdb" target="_blank">RocksDB</a>. It offered the
+                configurability, write throughput, and compaction control that generalized systems lacked.
+            </p>
+
+            <h3>Foundation: Log-Structured Merge Trees (LSM Trees)</h3>
+            <p>
+                RocksDB relies on a foundational data structure known as the <strong>Log-Structured Merge Tree (LSM
+                    Tree)</strong>, originally described by O'Neil et al. in their 1996 paper. Unlike B-Trees, LSM Trees
+                batch inserts in memory and flush them to disk in sorted order, enabling:
+            </p>
+            <ul>
+                <li><strong>Amortized O(log N)</strong> write cost</li>
+                <li>Efficient merge-based compaction</li>
+                <li>High sequential write throughput on SSDs</li>
+            </ul>
+
+            <figure>
+                <img src="./assets/LSM_leveled_compactions.png" alt="LSM Tree with Leveled Compaction"
+                    style="width:100%; max-width:650px;">
+                <figcaption>
+                    <strong>Figure 2:</strong> RocksDB's LSM Tree layout with <em>Leveled Compaction</em>. New SSTables
+                    are flushed from memory to disk and later merged level-by-level. <em>Source: RocksDB Wiki</em>.
+                </figcaption>
+            </figure>
+
+            <p>
+                This structure is ideal for Meta's use case where writes outnumber reads and disk I/O must be minimized.
+                The LSM Tree also enabled Meta to tune compaction styles—choosing between <strong>leveled</strong>,
+                <strong>universal</strong>, and <strong>FIFO</strong> strategies depending on access patterns.
+            </p>
+
+            <h3>Why RocksDB Was a Game Changer</h3>
+            <p>
+                According to <em>RocksDB: Evolution of Development Priorities</em> (Dong et al., 2021), RocksDB allowed
+                application owners to:
+            </p>
+            <ul>
+                <li>Tune <strong>write amplification</strong> vs. <strong>read efficiency</strong></li>
+                <li>Optimize <strong>cache locality</strong> with block-level caching</li>
+                <li>Control <strong>compaction rate</strong> and <strong>disk layout</strong> at column-family level
+                </li>
+            </ul>
+
+            <figure>
+                <img src="assets/amplication_vs_compaction.png" alt="Write amplification vs compaction style"
+                    style="width:100%; max-width:680px;">
+                <figcaption>
+                    <strong>Figure 3:</strong> Write amplification vs. compaction style. Meta used <em>Universal
+                        Compaction</em> for faster writes at the cost of space efficiency. <em>Source: ACM digital
+                        library (DL) <a
+                            href="https://dl.acm.org/doi/10.1145/3483840">https://dl.acm.org/doi/10.1145/3483840</a></em>.
+                </figcaption>
+            </figure>
+
+            <h3>Read Optimization: Bloom Filters</h3>
+            <p>
+                Read paths in RocksDB are accelerated using <strong>Bloom Filters</strong>, a probabilistic data
+                structure that checks set membership in <code>O(k)</code> time with minimal space. RocksDB associates
+                Bloom Filters with each SSTable to skip unnecessary disk I/O during point lookups.
+            </p>
+
+            <figure>
+                <img src="assets/sbf.png" alt="LSM Tree Layers with Bloom Filters" style="width:100%; max-width:680px;">
+                <figcaption>
+                    <strong>Figure 4:</strong> Bloom Filters used with each SSTable to skip reading tables that don't
+                    contain the queried key. <em>Source: O'Neil et al., LSM Tree paper</em>.
+                </figcaption>
+            </figure>
+
+            <p>
+                Persistent Bloom Filters (PBF), as explored by Peng et al. in SIGMOD 2018, also allow <strong>temporal
+                    queries</strong>—a crucial capability for searching user signals over time windows, such as "has
+                user X clicked in the last 10 minutes?".
+            </p>
+
+            <h3>Outcome: Scaling Personalized Search Efficiently</h3>
+            <p>
+                With RocksDB, Meta achieved:
+            </p>
+            <ul>
+                <li><strong>High ingest speed</strong> of real-time user activity</li>
+                <li><strong>Low p99 latency</strong> via LSM + Bloom + Cache</li>
+                <li><strong>Efficient resource usage</strong> across SSD/HDD layers</li>
+            </ul>
+        </section>
+
+        <section id="core-data-structures">
+            <h2>Section 2: Core Data Structures and Algorithms Used</h2>
+
+            <!-- 1. LSM Tree -->
+            <article id="lsm-tree">
+                <h3>1. <strong>LSM Tree (Log-Structured Merge Tree)</strong></h3>
+
+                <p>
+                    A <strong>Log-Structured Merge Tree</strong> (LSM Tree) is a write-optimized hierarchical structure
+                    designed for high-ingest systems like databases and key-value stores. Instead of writing directly to
+                    disk for every update (as B-Trees do), LSM Trees accumulate writes in memory and periodically flush
+                    them to disk in bulk. This transforms many small random writes into fewer sequential writes — a
+                    massive win on SSDs.
+                </p>
+
+                <p>
+                    The tree consists of a memory component (C0) and multiple disk levels (C1, C2...). Each level holds
+                    larger, sorted files, and the system periodically merges files across levels through a process
+                    called <strong>compaction</strong>.
+                </p>
+
+                <figure>
+                    <img src="./assets/LSM_tree.png" alt="LSM Tree Architecture" width="650">
+                    <figcaption><strong>Figure 1:</strong> LSM Tree layers: writes enter C0 (in-memory) and flush to
+                        sorted disk-based levels (C1, C2...) via compaction. Source: Wikipedia</figcaption>
+                    <p><a href="https://en.wikipedia.org/wiki/Log-structured_merge-tree" target="_blank">Source:
+                            Log-structured Merge Tree</a></p>
+                </figure>
+
+                <h4>🛠 How RocksDB Uses It</h4>
+                <p>
+                    RocksDB is a high-performance key-value engine built around the LSM Tree model. New data enters a
+                    MemTable in RAM. Once full, it is flushed to disk as an SSTable (Sorted String Table). These
+                    SSTables are compacted into progressively larger levels, maintaining sorted order.
+                </p>
+                <p>
+                    Meta's Mussel system, based on RocksDB, uses this architecture to ingest over <strong>1 million
+                        signals per second</strong> — from user views and clicks to host updates — without compromising
+                    read performance.
+                </p>
+
+                <button id="toggleCodeButton"
+                    style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">
+                    Show Code
+                </button>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="window-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                        <div class="file-name">lsm_tree.cpp</div>
+                    </div>
+                    <pre><span class="line"><span class="keyword">enum</span> <span class="type">Operation</span> { <span class="keyword">INSERT</span>, <span class="keyword">DELETE</span>, <span class="keyword">READ</span> };</span>
+<span class="line"><span class="keyword">const</span> <span class="type">std::string</span> <span class="keyword">TOMBSTONE</span> = <span class="string">"__TOMBSTONE__"</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">class</span> <span class="type">LSMTree</span> {</span>
+<span class="line">    <span class="type">MemTable</span>* memtable;</span>
+<span class="line">    <span class="type">std::vector</span>&lt;<span class="type">MemTable</span>*&gt; immutable_memtables;</span>
+<span class="line">    <span class="type">std::vector</span>&lt;<span class="type">std::vector</span>&lt;<span class="type">SSTable</span>*&gt;&gt; levels;  <span class="comment">// Level 0, Level 1, ...</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">public</span>:</span>
+<span class="line">    <span class="comment">// Unified LSM operation</span></span>
+<span class="line">    <span class="type">Status</span> <span class="function">Operate</span>(<span class="type">Operation</span> op, <span class="keyword">const</span> <span class="type">std::string</span>& key, <span class="type">std::string</span>* value = <span class="keyword">nullptr</span>) {</span>
+<span class="line">        <span class="keyword">if</span> (op == <span class="keyword">INSERT</span> <span class="operator">||</span> op == <span class="keyword">DELETE</span>) {</span>
+<span class="line">            <span class="type">std::string</span> val = (op == <span class="keyword">DELETE</span>) ? <span class="keyword">TOMBSTONE</span> : *value;</span>
+<span class="line"></span>
+<span class="line">            <span class="keyword">if</span> (memtable-&gt;<span class="function">isFull</span>()) {</span>
+<span class="line">                <span class="type">SSTable</span>* sst = memtable-&gt;<span class="function">flushToSSTable</span>();</span>
+<span class="line">                levels[<span class="number">0</span>].<span class="function">push_back</span>(sst);</span>
+<span class="line">                memtable-&gt;<span class="function">clear</span>();</span>
+<span class="line">                <span class="function">compactIfNeeded</span>();</span>
+<span class="line">            }</span>
+<span class="line">            memtable-&gt;<span class="function">insert</span>(key, val);</span>
+<span class="line">            <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">OK</span>();</span>
+<span class="line">        }</span>
+<span class="line">        <span class="keyword">else if</span> (op == <span class="keyword">READ</span>) {</span>
+<span class="line">            <span class="comment">// 1. Search MemTable</span></span>
+<span class="line">            <span class="keyword">if</span> (memtable-&gt;<span class="function">get</span>(key, value)) {</span>
+<span class="line">                <span class="keyword">if</span> (*value == <span class="keyword">TOMBSTONE</span>) <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">NotFound</span>();</span>
+<span class="line">                <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">OK</span>();</span>
+<span class="line">            }</span>
+<span class="line"></span>
+<span class="line">            <span class="comment">// 2. Search Immutable MemTables</span></span>
+<span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span> imm : immutable_memtables) {</span>
+<span class="line">                <span class="keyword">if</span> (imm-&gt;<span class="function">get</span>(key, value)) {</span>
+<span class="line">                    <span class="keyword">if</span> (*value == <span class="keyword">TOMBSTONE</span>) <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">NotFound</span>();</span>
+<span class="line">                    <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">OK</span>();</span>
+<span class="line">                }</span>
+<span class="line">            }</span>
+<span class="line"></span>
+<span class="line">            <span class="comment">// 3. Search SSTables level-wise</span></span>
+<span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span>& level : levels) {</span>
+<span class="line">                <span class="keyword">for</span> (<span class="keyword">auto</span> sst : level) {</span>
+<span class="line">                    <span class="keyword">if</span> (sst-&gt;<span class="function">mightContain</span>(key)) {   <span class="comment">// Bloom filter check</span></span>
+<span class="line">                        <span class="keyword">if</span> (sst-&gt;<span class="function">get</span>(key, value)) {</span>
+<span class="line">                            <span class="keyword">if</span> (*value == <span class="keyword">TOMBSTONE</span>) <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">NotFound</span>();</span>
+<span class="line">                            <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">OK</span>();</span>
+<span class="line">                        }</span>
+<span class="line">                    }</span>
+<span class="line">                }</span>
+<span class="line">            }</span>
+<span class="line">            <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">NotFound</span>();</span>
+<span class="line">        }</span>
+<span class="line">        <span class="keyword">return</span> <span class="type">Status</span>::<span class="function">InvalidArgument</span>();</span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">private</span>:</span>
+<span class="line">    <span class="keyword">void</span> <span class="function">compactIfNeeded</span>() {</span>
+<span class="line">        <span class="comment">// Background merging of SSTables, removing tombstones, etc.</span></span>
+<span class="line">    }</span>
+<span class="line">};</span></pre>
+                </div>
+                <p><a href="https://github.com/facebook/rocksdb/blob/de376be2ba3c9f20de5eecfdaae2bb028893a17a/db/db_impl/db_impl.cc#L2155"
+                        target="_blank">Source: RocksDB GitHub</a></p>
+
+                <table style="margin-top: 20px; border-collapse: collapse; width: 100%;">
+                    <thead>
+                        <tr style="background-color: #f2f2f2;">
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Operation</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Time Complexity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Insert</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Amortized O(log N)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Read</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">O(log L × log N) (L=levels)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Delete</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">O(log N) (insert tombstone)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <!-- 2. Bloom Filters -->
+            <article id="bloom-filters">
+                <h3>2. <strong>Bloom Filters</strong></h3>
+
+                <p>
+                    A <strong>Bloom Filter</strong> is a probabilistic data structure that answers: "Could this key
+                    exist?" It gives fast lookups in constant time using multiple hash functions and a compact bit
+                    array. The trade-off? It might say "yes" when the answer is "no" (false positives), but it will
+                    never miss a key that exists.
+                </p>
+
+                <p>
+                    RocksDB uses Bloom Filters with every SSTable to avoid unnecessary disk reads. When looking up a
+                    key, the engine queries the Bloom filter first. If the filter says "definitely not here," the
+                    SSTable is skipped entirely — saving costly disk I/O.
+                </p>
+
+                <figure>
+                    <img src="assets/Bloom_filter.png" alt="Bloom Filter Diagram" width="600">
+                    <figcaption><strong>Figure 2:</strong> Bloom filters use multiple hashes to set bits in a bit array.
+                        All bits must be 1 to indicate potential membership. Source: Wikipedia</figcaption>
+                    <p><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">Source: Bloom Filter</a></p>
+                </figure>
+
+                <h4>⏱ Time & Space Complexity</h4>
+                <ul>
+                    <li><strong>Query:</strong> O(k) where k = number of hash functions</li>
+                    <li><strong>Space:</strong> O(n log(1/ε)) for n elements, ε = false positive rate</li>
+                </ul>
+
+                <button id="toggleBloomCodeButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">Show Code</button>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="window-controls">
+                            <div class="control close"></div>
+                            <div class="control minimize"></div>
+                            <div class="control maximize"></div>
+                        </div>
+                        <div class="file-name">bloom_filter.cpp</div>
+                    </div>
+                    <pre><span class="line"><span class="keyword">#include</span> <span class="string">&lt;vector&gt;</span></span>
+<span class="line"><span class="keyword">#include</span> <span class="string">&lt;bitset&gt;</span></span>
+<span class="line"><span class="keyword">#include</span> <span class="string">&lt;functional&gt;</span>  <span class="comment">// For std::hash</span></span>
+<span class="line"><span class="keyword">#include</span> <span class="string">&lt;string&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span class="keyword">class</span> <span class="type">BloomFilter</span> {</span>
+<span class="line">    <span class="type">std::vector</span>&lt;<span class="keyword">bool</span>&gt; bitArray;</span>
+<span class="line">    <span class="type">size_t</span> size;</span>
+<span class="line">    <span class="type">size_t</span> numHashes;</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">public</span>:</span>
+<span class="line">    BloomFilter(<span class="type">size_t</span> size, <span class="type">size_t</span> numHashes)</span>
+<span class="line">        : bitArray(size), size(size), numHashes(numHashes) {}</span>
+<span class="line"></span>
+<span class="line">    <span class="comment">// Insert an element (key) into Bloom Filter</span></span>
+<span class="line">    <span class="keyword">void</span> insert(<span class="keyword">const</span> <span class="type">std::string</span>& key) {</span>
+<span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = 0; i < numHashes; ++i) {</span>
+<span class="line">            <span class="type">size_t</span> hash = hash_i(key, i);</span>
+<span class="line">            bitArray[hash % size] = <span class="keyword">true</span>;</span>
+<span class="line">        }</span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line">    <span class="comment">// Query whether the key might exist</span></span>
+<span class="line">    <span class="keyword">bool</span> mightContain(<span class="keyword">const</span> <span class="type">std::string</span>& key) <span class="keyword">const</span> {</span>
+<span class="line">        <span class="keyword">for</span> (<span class="type">size_t</span> i = 0; i < numHashes; ++i) {</span>
+<span class="line">            <span class="type">size_t</span> hash = hash_i(key, i);</span>
+<span class="line">            <span class="keyword">if</span> (!bitArray[hash % size]) <span class="keyword">return</span> <span class="keyword">false</span>;  <span class="comment">// Definitely not present</span></span>
+<span class="line">        }</span>
+<span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;  <span class="comment">// Might be present (could be false positive)</span></span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">private</span>:</span>
+<span class="line">    <span class="comment">// Simple hash function variation combining std::hash with i</span></span>
+<span class="line">    <span class="type">size_t</span> hash_i(<span class="keyword">const</span> <span class="type">std::string</span>& key, <span class="type">size_t</span> i) <span class="keyword">const</span> {</span>
+<span class="line">        <span class="keyword">return</span> std::hash<std::string>{}(key) + i * 0x9e3779b9;</span>
+<span class="line">    }</span>
+<span class="line">};</span></pre>
+                    </div>
+                    <p><a href="https://github.com/google/guava/blob/master/guava/src/com/google/common/hash/BloomFilter.java" target="_blank">Source: Google Guava GitHub</a></p>
+                </div>
+            </article>
+
+            <!-- 3. MemTable -->
+            <article id="memtable">
+                <h3>3. <strong>MemTable (Write Buffer)</strong></h3>
+
+                <p>
+                    A <strong>MemTable</strong> is the first stop for new writes. It's an in-memory data structure —
+                    typically a <em>Skip List</em> or <em>Red-Black Tree</em> — that temporarily stores key-value pairs.
+                    Once it fills up, it flushes its contents to disk as an immutable SSTable.
+                </p>
+
+                <p>
+                    In RocksDB, this buffering reduces the cost of disk writes and allows compactions to batch multiple
+                    changes efficiently. While active, MemTables also serve recent reads — ensuring low-latency access
+                    to fresh data.
+                </p>
+
+                <h4>⏱ Time Complexities</h4>
+                <ul>
+                    <li><strong>Insert/Search/Delete:</strong> O(log n)</li>
+                    <li><strong>Flush:</strong> O(n), written sequentially to disk</li>
+                </ul>
+            </article>
+
+            <!-- 4. Compaction -->
+            <article id="compaction">
+                <h3>4. <strong>Compaction Algorithms</strong></h3>
+
+                <p>
+                    Compaction is the LSM Tree's cleanup crew. It merges SSTables across levels, removes obsolete keys
+                    (e.g., overwritten or deleted), and maintains sorted order. Without compaction, RocksDB would become
+                    a read-performance disaster due to too many SSTables.
+                </p>
+
+                <p>
+                    RocksDB supports multiple compaction styles:
+                <ul>
+                    <li><strong>Leveled Compaction</strong>: Aggressively merges SSTables into fixed-size levels. Great
+                        for reads.</li>
+                    <li><strong>Universal Compaction</strong>: Flexible, less aggressive merging. Ideal for fast-write
+                        workloads like Meta's signal ingestion pipeline.</li>
+                    <li><strong>FIFO Compaction</strong>: Deletes old files in order — used for time-series or log data.
+                    </li>
+                </ul>
+                </p>
+
+                <figure>
+                    <img src="assets/Leveled_compaction.png" alt="Leveled Compaction in RocksDB" width="650">
+                    <figcaption><strong>Figure 3:</strong> In Leveled Compaction, newer SSTables are merged downward
+                        into larger levels. Source: RocksDB GitHub Wiki</figcaption>
+                    <p><a href="https://github.com/facebook/rocksdb/wiki/Memtable" target="_blank">Source: MemTable</a>
+                    </p>
+                </figure>
+
+                <h4>⏱ Complexity</h4>
+                <ul>
+                    <li><strong>Worst-case:</strong> O(N) during major compactions</li>
+                    <li><strong>Amortized:</strong> Lower, depending on tuning of levels and compaction triggers</li>
+                </ul>
+            </article>
+
+            <!-- 5. LRU Cache -->
+            <article id="lru-cache">
+                <h3>5. <strong>Cache Layer (LRU Cache)</strong></h3>
+
+                <p>
+                    RocksDB includes a <strong>block cache</strong> to store frequently accessed data blocks from
+                    SSTables. It uses the <strong>Least Recently Used (LRU)</strong> replacement policy — implemented
+                    with a combination of a hash map and a doubly linked list.
+                </p>
+
+                <p>
+                    This is crucial for performance at Meta: if a user views a listing multiple times in a short period,
+                    the data stays hot in cache, avoiding repeated disk reads and improving response time.
+                </p>
+
+                <figure>
+                    <img src="assets/LRU_cache.png" alt="LRU Cache Mechanism" width="600">
+                    <figcaption><strong>Figure 4:</strong> LRU cache mechanism stores frequently accessed items at the
+                        front of a list, evicts least-recently-used ones. Source: Wikipedia</figcaption>
+                    <p><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies" target="_blank">Source: Cache
+                            Replacement Policies</a></p>
+                </figure>
+
+                <h4>⏱ Time Complexity</h4>
+                <ul>
+                    <li><strong>Lookup:</strong> O(1)</li>
+                    <li><strong>Insert/Evict:</strong> O(1)</li>
+                </ul>
+            </article>
+
+            <!-- Summary Table -->
+            <article id="summary-table">
+                <h3>🧮 Summary: Time and Space Complexity Table</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Data Structure</th>
+                            <th>Operation</th>
+                            <th>Time Complexity</th>
+                            <th>Purpose in RocksDB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MemTable</td>
+                            <td>Skip List / RB Tree</td>
+                            <td>Insert/Search</td>
+                            <td><strong>O(log n)</strong></td>
+                            <td>Fast, in-memory write buffer</td>
+                        </tr>
+                        <tr>
+                            <td>SSTable</td>
+                            <td>Sorted Array</td>
+                            <td>Binary Search</td>
+                            <td><strong>O(log n)</strong></td>
+                            <td>On-disk immutable key-value store</td>
+                        </tr>
+                        <tr>
+                            <td>Bloom Filter</td>
+                            <td>Bit Array + Hashing</td>
+                            <td>Membership Check</td>
+                            <td><strong>O(k)</strong></td>
+                            <td>Skips unnecessary disk I/O</td>
+                        </tr>
+                        <tr>
+                            <td>Compaction</td>
+                            <td>Sorted Merge</td>
+                            <td>Merge N keys</td>
+                            <td><strong>O(N)</strong></td>
+                            <td>Reduces fragmentation & disk usage</td>
+                        </tr>
+                        <tr>
+                            <td>Block Cache</td>
+                            <td>HashMap + DLL (LRU)</td>
+                            <td>Access/Evict</td>
+                            <td><strong>O(1)</strong></td>
+                            <td>Improves read performance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+        </section>
+
+        <section id="efficiency-tradeoffs">
+            <div class="content-wrapper">
+                <h2>Section 3: Time Efficiency & Tradeoffs</h2>
+                <p>
+                    Building a high-performance key-value store means making deliberate tradeoffs between write speed,
+                    read latency, memory usage, and compaction cost. Each of the data structures introduced earlier (LSM
+                    Tree, Bloom Filter, MemTable, etc.) contributes to specific performance characteristics.
+                </p>
+
+                <h3>After RocksDB</h3>
+                <ul>
+                    <li><strong>Writes:</strong> Batched via MemTables, flushed to disk as sorted files → high
+                        throughput</li>
+                    <li><strong>Reads:</strong> Bloom filters and LRU cache reduced tail latencies dramatically</li>
+                    <li><strong>Disk usage:</strong> Compaction reduced fragmentation and deleted stale keys</li>
+                    <li><strong>Scalability:</strong> Embedded RocksDB engines at service boundaries eliminated the need
+                        for separate DB clusters</li>
+                </ul>
+
+                <h3>Component-by-Component Tradeoffs</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Benefit</th>
+                            <th>Tradeoff</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LSM Tree</strong></td>
+                            <td>Fast writes (sequential, batched)</td>
+                            <td>Slower reads unless mitigated with filters or caches</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bloom Filter</strong></td>
+                            <td>Reduces unnecessary disk reads</td>
+                            <td>Uses extra memory; allows false positives</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MemTable</strong></td>
+                            <td>In-memory buffering for fast ingest</td>
+                            <td>Risk of data loss if not flushed and crash occurs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Compaction</strong></td>
+                            <td>Keeps disk clean and sorted</td>
+                            <td>CPU and I/O intensive during heavy merges</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LRU Cache</strong></td>
+                            <td>Speeds up hot reads</td>
+                            <td>Consumes significant memory under high traffic</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Real Performance Gains</h3>
+                <p>
+                    According to internal benchmarks:
+                </p>
+
+                <figure>
+                    <img src="https://miro.medium.com/v2/resize:fit:1200/format:webp/1*0S_F2I-5mDwXTw0Jj8UOqQ.png"
+                        alt="RocksDB Read Latency Chart" width="650">
+                    <figcaption>
+                        <strong>Figure 6:</strong> Tail latency improvement after switching to RocksDB. Source:
+                        Engineering Blog
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section id="references">
+            <h2>Section 8: References & Resources</h2>
+            <h3>Foundational Papers</h3>
+            <ul>
+                <li>
+                    O'Neil, P. et al. (1996).
+                    <em><a href="https://www.cs.umb.edu/~poneil/lsmtree.pdf" target="_blank">
+                            The Log-Structured Merge-Tree (LSM-Tree)</a></em>, Acta Informatica.
+                </li>
+                <li>
+                    Dong, Q. et al. (2021).
+                    <em><a href="https://dl.acm.org/doi/abs/10.1145/3453474" target="_blank">
+                            RocksDB: Evolution of Development Priorities</a></em>, ACM Transactions on Storage.
+                </li>
+                <li>
+                    Peng, D. et al. (2018).
+                    <em><a href="https://users.cs.utah.edu/~lifeifei/papers/pbf.pdf" target="_blank">
+                            Persistent Bloom Filter: Membership Testing for the Entire History</a></em>, SIGMOD.
+                </li>
+            </ul>
+            <h3>Official Documentation & Source Code</h3>
+            <ul>
+                <li>
+                    <a href="https://github.com/facebook/rocksdb/wiki/MemTable" target="_blank">
+                        RocksDB Wiki – MemTable</a>
+                </li>
+                <li>
+                    <a href="https://github.com/facebook/rocksdb/wiki/Compaction" target="_blank">
+                        RocksDB Wiki – Compaction</a>
+                </li>
+                <li>
+                    <a href="https://github.com/facebook/rocksdb/wiki/universal-compaction" target="_blank">
+                        RocksDB Wiki – Universal Compaction</a>
+                </li>
+                <li>
+                    <a href="https://rocksdb.org/blog/" target="_blank">
+                        RocksDB Official Blog</a>
+                </li>
+            </ul>
+            <h3>Airbnb Engineering Case Material</h3>
+            <ul>
+                <li>
+                    <a href="https://medium.com/airbnb-engineering/mussel-airbnbs-key-value-store-for-derived-data-406b9fa1b296"
+                        target="_blank">
+                        Mussel: Airbnb's Key-Value Store for Derived Data</a>
+                </li>
+                <li>
+                    <a href="https://medium.com/airbnb-engineering/building-a-user-signals-platform-at-airbnb-b236078ec82b"
+                        target="_blank">
+                        Building a User Signals Platform at Airbnb</a>
+                </li>
+            </ul>
+            <h3>System Design Blogs & Visual Deep-Dives</h3>
+            <ul>
+                <li>
+                    <a href="https://blog.bytebytego.com/p/how-airbnb-built-a-key-value-store" target="_blank">
+                        How Airbnb Built a Key-Value Store for Petabytes of Data – ByteByteGo</a>
+                </li>
+                <li>
+                    <a href="https://blog.bytebytego.com/p/how-airbnb-powers-personalization" target="_blank">
+                        How Airbnb Powers Personalization – ByteByteGo</a>
+                </li>
+                <li>
+                    <a href="https://www.alibabacloud.com/blog/an-in-depth-discussion-on-the-lsm-compaction-mechanism_596780"
+                        target="_blank">
+                        LSM Compaction Deep Dive – Alibaba Cloud Blog</a>
+                </li>
+            </ul>
+            <h3>Talks & Slides</h3>
+            <ul>
+                <li>
+                    <a href="https://www.youtube.com/watch?v=ASQ6XMtogMs" target="_blank">
+                        RocksDB for Personalized Search at Airbnb – Tao Xu (YouTube)</a>
+                </li>
+                <li>
+                    <a href="https://plus-archive.qconferences.com/speakers/jessica-tai-0" target="_blank">
+                        QCon: Migrating Airbnb's Monolith to Mussel – Jessica Tai</a>
+                </li>
+            </ul>
+            <h3>Benchmarks & Tuning Guides</h3>
+            <ul>
+                <li>
+                    <a href="https://smalldatum.blogspot.com/2023/06/universal-compaction-in-rocksdb-and-me.html"
+                        target="_blank">
+                        Small Datum: Universal Compaction in RocksDB</a>
+                </li>
+                <li>
+                    <a href="https://smalldatum.blogspot.com/2024/11/rocksdb-benchmarks-large-server.html"
+                        target="_blank">
+                        Small Datum: RocksDB Benchmarks on Large Servers</a>
+                </li>
+                <li>
+                    <a href="https://www.confluent.io/blog/how-to-tune-rocksdb-kafka-streams-state-stores-performance/"
+                        target="_blank">
+                        Tuning RocksDB for Kafka Streams – Confluent Blog</a>
+                </li>
+            </ul>
+            <h3>Open Datasets & Benchmark Tools</h3>
+            <ul>
+                <li><strong>YCSB Workloads A–F</strong>: Standard key-value store performance workloads</li>
+                <li><strong>RocksDB db_bench Utility</strong>: Built-in RocksDB benchmarking tool</li>
+                <li><strong>CloudLab SSD I/O Traces</strong>: For modeling compaction on SSD vs HDD</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const codeContainers = document.querySelectorAll(".code-container");
+            codeContainers.forEach(container => {
+                container.style.display = "none"; // Ensure code containers are hidden by default
+            });
+
+            const toggleButtons = document.querySelectorAll("button[id^='toggle']");
+            toggleButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const codeContainer = this.nextElementSibling;
+                    if (codeContainer.style.display === "none") {
+                        codeContainer.style.display = "block";
+                        this.textContent = "Hide Code";
+                    } else {
+                        codeContainer.style.display = "none";
+                        this.textContent = "Show Code";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
